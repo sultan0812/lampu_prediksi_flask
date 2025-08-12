@@ -31,6 +31,7 @@ BULAN_ID = {
 # ===============================
 @app.context_processor
 def inject_current_year():
+    from datetime import datetime
     return {"current_year": datetime.now().year}
 
 # ===============================

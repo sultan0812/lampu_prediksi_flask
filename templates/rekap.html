@@ -177,7 +177,7 @@
           <tbody>
             {% for row in rekap_tahunan %}
             {% set tahun = row.Tahun|int %}
-            <tr class="animate__animated animate__fadeInUp animate__faster" style="animation-delay: {{ loop.index0 * 0.1 }}s;">
+            <tr class="animate__animated animate__fadeInUp animate__faster"data-delay="{{ (loop.index0 * 0.1) | round(1) }}">
               <td>{{ tahun }}</td>
               <td>{{ "{:,}".format(row.LED) }}</td>
               <td>{{ "{:,}".format(row.HID) }}</td>
@@ -250,9 +250,15 @@
   <!-- Footer -->
   <footer style="background-color:#2c3e50;color:#fff;" class="py-3 mt-auto animate__animated animate__fadeInUp">
     <div class="container text-center">
-      &copy; {{ datetime.now().year }} Sistem Prediksi Lampu. All Rights Reserved
+     &copy; {{ current_year }} Sistem Prediksi Lampu. All Rights Reserved
     </div>
   </footer>
-
+  <script>
+    // Terapkan animation delay dari data-delay agar tidak mengganggu CSS linter
+    document.querySelectorAll('tr[data-delay]').forEach(function (el) {
+      var d = el.getAttribute('data-delay');
+      if (d) el.style.animationDelay = d + 's';
+    });
+  </script>
 </body>
 </html>
