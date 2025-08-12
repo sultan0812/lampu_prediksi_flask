@@ -12,11 +12,11 @@
     .brand { font-weight:800; font-size:26px; color:#fff; }
     .pill-nav a { display:inline-block; padding:10px 24px; border-radius:999px; background:rgba(255,255,255,.15); color:#fff; text-decoration:none; font-weight:600; margin-left:10px; transition:all .3s ease; }
     .pill-nav a:hover { background:rgba(255,255,255,.35); transform:scale(1.05); }
-
-    .card-box { background:#fff; border-radius:20px; box-shadow:0 12px 38px rgba(0,0,0,.06); border:1px solid rgba(0,0,0,.05); padding:24px; }
+    .card-box { background:#fff; border-radius:28px; box-shadow:0 12px 38px rgba(0,0,0,.06); border:1px solid rgba(0,0,0,.05); padding:30px; }
     .custom-table { border-collapse:separate; border-spacing:0; width:100%; border:2px solid #000; border-radius:15px; overflow:hidden; }
     .custom-table th { background:#1c3d99; color:#fff; text-align:center; font-weight:700; border:1px solid #000; }
     .custom-table td { text-align:center; border:1px solid #000; background:#fff; vertical-align:middle; }
+    .badge-note { font-size: .9rem; }
   </style>
 </head>
 <body>
@@ -33,7 +33,15 @@
 
   <div class="container my-5">
     <div class="card-box animate__animated animate__fadeInUp">
-      <h3 class="mb-4 text-center">Data Asli Tahun {{ tahun }}</h3>
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="mb-0">Data Tahun {{ tahun }}</h3>
+        {% if is_prediksi %}
+          <span class="badge text-bg-warning badge-note">Ditampilkan sebagai <strong>prediksi</strong> (data asli belum tersedia)</span>
+        {% else %}
+          <span class="badge text-bg-success badge-note">Data asli</span>
+        {% endif %}
+      </div>
+
       <div class="table-responsive">
         <table class="custom-table">
           <thead>
@@ -49,15 +57,16 @@
             {% for row in data %}
             <tr>
               <td>{{ row.Bulan }}</td>
-              <td>{{ "{:,.0f}".format(row.LED).replace(",", ".") }}</td>
-              <td>{{ "{:,.0f}".format(row.HID).replace(",", ".") }}</td>
-              <td>{{ "{:,.0f}".format(row.Bohlam).replace(",", ".") }}</td>
-              <td>{{ "{:,.0f}".format((row.LED or 0) + (row.HID or 0) + (row.Bohlam or 0)).replace(",", ".") }}</td>
+              <td>{{ "{:,}".format(row.LED) }}</td>
+              <td>{{ "{:,}".format(row.HID) }}</td>
+              <td>{{ "{:,}".format(row.Bohlam) }}</td>
+              <td>{{ "{:,}".format((row.LED or 0) + (row.HID or 0) + (row.Bohlam or 0)) }}</td>
             </tr>
             {% endfor %}
           </tbody>
         </table>
       </div>
+
       <div class="text-center mt-4">
         <a href="{{ url_for('rekap') }}" class="btn btn-secondary">Kembali</a>
       </div>
